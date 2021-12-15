@@ -1,3 +1,5 @@
+
+#Python version
 class Solution:
     def longestPalindromeSubseq(self, str: str) -> int:
         
@@ -34,14 +36,6 @@ class Solution:
       for i in range(n):
           L[i][i] = 1
 
-      # Build the table. Note that the lower
-      # diagonal values of table are
-      # useless and not filled in the process.
-      # The values are filled in a
-      # manner similar to Matrix Chain
-      # Multiplication DP solution (See
-      # https://www.geeksforgeeks.org/dynamic-programming-set-8-matrix-chain-multiplication/
-      # cl is length of substring
       for cl in range(2, n+1):
           for i in range(n-cl+1):
               j = i+cl-1
@@ -53,3 +47,31 @@ class Solution:
                   L[i][j] = max(L[i][j-1], L[i+1][j]);
 
       return L[0][n-1]
+
+#Java Version
+class Solution {
+    public int longestPalindromeSubseq(String s) {
+        int L[][] = new int[s.length()][s.length()];
+        // for(int i=0;i<s.length();i++){
+        //     L[i][i]=1;
+        // }
+        
+        for(int cl=1;cl<=s.length();cl++){
+            for(int i=0;i<(s.length()-cl)+1;i++){
+                int j = (i+cl)-1;
+                if(i==j){
+                    L[i][j]=1;
+                    continue;
+                }
+                if((s.charAt(i)==s.charAt(j)) && cl==2)
+                    L[i][j] = 2;
+                else if(s.charAt(i)==s.charAt(j))
+                    L[i][j] = 2+L[i+1][j-1];
+                else
+                    L[i][j] = Math.max(L[i+1][j],L[i][j-1]);
+                    
+            }
+        }
+        return L[0][s.length()-1];
+    }
+}
